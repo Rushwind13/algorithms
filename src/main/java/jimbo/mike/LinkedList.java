@@ -150,6 +150,35 @@ public class LinkedList
 		return slow;
 	}
 
+	public boolean isCyclic()
+	{
+		Node fast = head;
+		Node slow = head;
+
+		while( true )
+		{
+			slow = slow.next;
+			if( fast.next != null )
+			{
+				fast = fast.next.next;
+			}
+			else
+			{
+				return false;
+			}
+			// note, I don't need to check "slow", "fast" always gets there first.
+			if( fast == null )
+			{
+				return false;
+			}
+			// note, don't have to check slow == fast.next, because it will get picked up next cycle
+			if( slow == fast )
+			{
+				return true;
+			}
+		}
+	}
+
     public static void main( String[] args )
     {
 	LinkedList theList = new LinkedList();
@@ -162,6 +191,15 @@ public class LinkedList
 
         System.out.println( "Hello from LinkedList!" );
         System.out.println( theList );
+
+	Node cycle = theList.find( "9" );
+	Node target = theList.find( "2" );
+
+	System.out.println( theList.isCyclic() );
+	cycle.next = target;
+	System.out.println( theList.isCyclic() );
+	cycle.next = null;
+	System.out.println( theList.isCyclic() );
 
 	Node toDelete = theList.find( "5" );
 	theList.delete( toDelete );
