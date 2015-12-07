@@ -12,34 +12,100 @@ public class LinkedList
 	{
 	}
 
+	// Stack operations: push and pop (only deal with head of list)
+	public void push( String _data )
+	{
+		Node node = new Node( _data );
+		node.next = this.head;
+		this.head = node;
+	}
+
+	public Node pop()
+	{
+		Node node = this.head;
+		this.head = node.next;
+		return node;
+	}
+
+	// Normal LL inserts are "sorted".
 	public void insert( String _data )
 	{
 		Node node = new Node( _data );
-		node.next = head;
-		head = node;
+		this.insert( node );
 	}
 
-	public void insert( Node after )
+	public void insert( Node toInsert )
 	{
 		// special case: if list empty or head larger than incoming, incoming is new head
-		if( this.head == null || this.head.compareTo(after) > 0 )
+		if( this.head == null || this.head.compareTo(toInsert) > 0 )
 		{
-			// after is the new head
-			after.next = head;
-			head = after;
+			// toInsert is the new head
+			toInsert.next = head;
+			head = toInsert;
 			return;
 		}
 
 		// Not empty list, not left of list, so somewhere in middle.
 		Node curr = head;
-		while( curr.next != null && curr.next.compareTo(after) < 0 )
+		while( curr.next != null && curr.next.compareTo(toInsert) < 0 )
 		{
 			curr = curr.next;	
 		}
 		// insert before curr_next
-		after.next = curr.next;
-		curr.next = after;
+		toInsert.next = curr.next;
+		curr.next = toInsert;
 	}
+
+	// find() returns the first Node in the LinkedList with data = the query term, or null if the data is not present.
+	public Node find( String _data )
+	{
+		Node curr = this.head;
+		while( curr != null && curr.data != _data )
+		{
+			curr = curr.next;
+		}
+		return curr;
+	}
+
+	public boolean delete( Node deleteMe )
+	{
+		Node curr = head;
+		if( this.head == deleteMe )
+		{
+			this.head = curr.next;
+			deleteMe = null;
+			return true;
+		}
+
+		while( curr != null )
+		{
+			if( curr.next == deleteMe )
+			{
+				curr.next = deleteMe.next;
+				deleteMe = null;
+				return true;
+			}
+			curr = curr.next;
+		}
+
+		// not found
+		return false;
+	}
+
+	public boolean deleteList()
+	{
+		// trust the Java magic.
+		head = null;
+		/*Node deleteMe = this.head;
+		while( deleteMe.next != null )
+		{
+			Node next = deleteMe.next;
+			deleteMe = null;
+			deleteMe = next;
+		}/**/
+		return true;	
+	}
+
 	public String toString()
 	{
 		StringBuffer retval = new StringBuffer();
@@ -56,35 +122,42 @@ public class LinkedList
     {
 	LinkedList theList = new LinkedList();
 	theList.insert( "1" );
-	//theList.insert( "4" );
+	theList.insert( "2" );
+	theList.insert( "0" );
+	theList.insert( "5" );
+	theList.insert( "9" );
+	theList.insert( "3" );
 
-        System.out.println( theList );
-
-	LinkedList n2 = new LinkedList();
-	n2.insert("2");
-        theList.insert(n2.head);
-
-	/**/LinkedList n0 = new LinkedList();
-	n0.insert("0");
-        theList.insert(n0.head);
-
-	LinkedList n5 = new LinkedList();
-	n5.insert("5");
-        theList.insert(n5.head);/**/
-	LinkedList n9 = new LinkedList();
-	n9.insert("9");
-        theList.insert(n9.head);/**/
-	LinkedList n3 = new LinkedList();
-	n3.insert("3");
-        theList.insert(n3.head);/**/
-
-
-        //theList.insert(new LinkedList.Node( "0" ));
-        //theList.insert(new LinkedList.Node( "3" ));
-        //theList.insert(new LinkedList.Node( "5" ));
-	
         System.out.println( "Hello from LinkedList!" );
         System.out.println( theList );
+
+	Node toDelete = theList.find( "5" );
+	theList.delete( toDelete );
+
+	System.out.println( theList );
+
+	theList.deleteList();
+	System.out.println( theList );
+
+	LinkedList theStack = new LinkedList();
+	theStack.push( "D" );
+	theStack.push( "A" );
+	theStack.push( "E" );
+	theStack.push( "B" );
+
+	System.out.println( "Hello from Stack!" );
+        System.out.println( theStack );
+
+	Node got = theStack.pop();
+
+	System.out.println( got );
+	System.out.println( theStack );
+
+	theStack.push( "F" );
+	theStack.push( "C" );
+	theStack.push( "G" );
+
+	System.out.println( theStack );
     }
 	
     public class Node implements Comparable<Node>
