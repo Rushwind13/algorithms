@@ -118,6 +118,38 @@ public class LinkedList
 		return retval.toString();
 	}
 
+// Interview question solutions
+
+	public Node mthToLast( int m )
+	{
+		Node fast = head;
+		Node slow = head;
+
+		// scroll forward m steps, to provide correct spacing between the pointers
+		while( m > 0 )
+		{
+			if( fast.next != null )
+			{
+				fast = fast.next;
+			}
+			else
+			// If the list is too short, return error condition
+			{
+				return null;
+			}
+			m--;
+		}
+
+		// Now that we have the correct spacing, move both pointers forward
+		while( fast.next != null )
+		{
+			fast = fast.next;
+			slow = slow.next;
+		}
+		// Now slow is pointing to the desired result
+		return slow;
+	}
+
     public static void main( String[] args )
     {
 	LinkedList theList = new LinkedList();
@@ -135,6 +167,18 @@ public class LinkedList
 	theList.delete( toDelete );
 
 	System.out.println( theList );
+
+	Node mth = theList.mthToLast( 0 );
+	System.out.println( "last element " + mth );
+
+	mth = theList.mthToLast( 3 );
+	System.out.println( "3 from last " + mth );
+
+	mth = theList.mthToLast( 1 );
+	System.out.println( "1 from last " + mth );
+
+	mth = theList.mthToLast( 10 );
+	System.out.println( "10 from last " + mth );
 
 	theList.deleteList();
 	System.out.println( theList );
