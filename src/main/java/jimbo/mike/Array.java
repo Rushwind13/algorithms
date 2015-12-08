@@ -140,6 +140,8 @@ public class Array
 			sign = -1;
 			in *= -1;
 		}
+
+		if( in == 0 ) return "0"; // do-while is The Evil.
 		int curr;
 		while( in > 0 )
 		{
@@ -179,9 +181,11 @@ public class Array
 		System.out.println( theArray.reverseWords( theArray.s2 ) );
 		System.out.println( theArray.reverseWords( theArray.s3 ) );
 
+		System.out.println( theArray.strToInt( "-0" ) );
 		System.out.println( theArray.strToInt( "-1234" ) );
 		System.out.println( theArray.strToInt( "98765" ) );
 
+		System.out.println( theArray.intToStr( -0 ) );
 		System.out.println( theArray.intToStr( -1234 ) );
 		System.out.println( theArray.intToStr( 98765 ) );
 	}
