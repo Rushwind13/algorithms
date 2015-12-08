@@ -73,6 +73,41 @@ class Tree
 		}
 		return null;
 	}
+
+	public Leaf commonAncestor( String one, String two )
+	{
+		Leaf curr = root;
+		// Ensure one < two
+		if( one.compareTo( two ) > 0 )
+		{
+			//System.out.println( "Swapping " + one + " and " + two );
+			String temp = one;
+			one = two;
+			two = temp;
+		}
+
+		while( curr != null )
+		{
+			// if curr > both, go right
+			if( curr.data.compareTo( two ) > 0 )
+			{
+				//System.out.println( "Comparing " + two + " to " + curr.data + ": " + curr.data.compareTo( two ) );
+				curr = curr.left;
+			}
+			// if curr < both, go left
+			else if( curr.data.compareTo( one ) < 0 )
+			{
+				//System.out.println( "Comparing " + one + " to " + curr.data + ": " + curr.data.compareTo( one ) );
+				curr = curr.right;
+			}
+			// otherwise, you're between, and thus are pointing to the correct node
+			else
+			{
+				return curr;
+			}
+		}
+		return null;
+	}
 	public String preOrderIterative()
 	{
 		StringBuffer out = new StringBuffer();
@@ -84,7 +119,7 @@ class Tree
 		{
 			node = theStack.pop();
 			curr = node.data;
-			out.append( curr.data );
+			out.append( curr.data + " " );
 			if( curr.right != null ) theStack.push( curr.right );
 			if( curr.left != null ) theStack.push( curr.left );
 		}
@@ -96,7 +131,7 @@ class Tree
 		StringBuffer out = new StringBuffer();
 		if( curr == null ) return out.toString();
 		out.append( inOrder( curr.left ) );
-		out.append( curr.data );
+		out.append( curr.data + " " );
 		out.append( inOrder( curr.right ) );
 
 		return out.toString();
@@ -105,7 +140,7 @@ class Tree
 	{
 		StringBuffer out = new StringBuffer();
 		if( curr == null ) return out.toString();
-		out.append( curr.data );
+		out.append( curr.data + " " );
 		out.append( preOrder( curr.left ) );
 		out.append( preOrder( curr.right ) );
 
@@ -117,7 +152,7 @@ class Tree
 		if( curr == null ) return out.toString();
 		out.append( postOrder( curr.left ) );
 		out.append( postOrder( curr.right ) );
-		out.append( curr.data );
+		out.append( curr.data + " " );
 
 		return out.toString();
 	}
@@ -151,6 +186,20 @@ class Tree
 
 		System.out.println( theTree.find("7") );
 		System.out.println( theTree.find("6") );
+
+		Tree otherTree = new Tree( "20" );
+		otherTree.insert("08");
+		otherTree.insert("22");
+		otherTree.insert("12");
+		otherTree.insert("04");
+		otherTree.insert("10");
+		otherTree.insert("14");
+
+		System.out.println( otherTree );
+		System.out.println( otherTree.preOrderIterative() );
+		System.out.println( otherTree.commonAncestor( "14", "04" ) );
+		System.out.println( otherTree.commonAncestor( "10", "22" ) );
+		System.out.println( otherTree.commonAncestor( "08", "04" ) );
 	}
 
 	class Leaf implements Comparable<Leaf>
