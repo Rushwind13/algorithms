@@ -9,6 +9,7 @@ public class Array
 {
 	String s1 = "people say im the life of the party because i tell a joke or two";
 	String s2 = "we the people of the united states of america";
+	String s3 = "do or do not, there is no try.";
 
 	public char firstNonRepeatedChar( String in )
 	{
@@ -71,6 +72,38 @@ public class Array
 		return out.substring( 0, write );
 	}
 
+	public String reverseWords( String in )
+	{
+		StringBuilder out = new StringBuilder();
+
+		int word_start = -1;
+		int word_end = -1;
+
+		for( int i = in.length() -1; i > 0; i-- )
+		{
+			if( word_end == -1 )	
+			{
+				if( in.charAt(i) != ' ' )
+				{
+					word_end = i+1;
+				}
+			}
+			else
+			{
+				if( in.charAt(i) == ' ' )
+				{
+					word_start = i+1;
+					out.append( in.substring( word_start, word_end ) );
+					out.append( " " );
+					word_start = -1;
+					word_end = -1;
+				}
+			}
+		}
+		out.append( in.substring( 0, word_end ) );
+
+		return out.toString();
+	}
 	public static void main( String[] args )
 	{
 		System.out.println( "Hello Array!" );
@@ -82,5 +115,9 @@ public class Array
 
 		System.out.println( theArray.removeChars( theArray.s1, "aeiou" ) );
 		System.out.println( theArray.removeChars( theArray.s2, "aeiou" ) );
+
+		System.out.println( theArray.reverseWords( theArray.s1 ) );
+		System.out.println( theArray.reverseWords( theArray.s2 ) );
+		System.out.println( theArray.reverseWords( theArray.s3 ) );
 	}
 }
