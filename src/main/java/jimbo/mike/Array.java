@@ -104,6 +104,65 @@ public class Array
 
 		return out.toString();
 	}
+
+	public int strToInt( String in )
+	{
+		// special case, grab the '-' if it's there.
+		// otherwise, walk the string, multiplying the result by 10 each digit.
+		int sign = 1;
+		int index = 0;
+		int out = 0;
+		if( in.charAt(0) == '-' )
+		{
+			sign = -1;
+			index = 1;
+		}
+
+		int length = in.length();
+
+		for( ; index < length; index++ )
+		{
+			out *= 10;
+			out += in.charAt(index) - '0';
+		}
+		
+		out *= sign;
+		return out;
+	}
+
+	public String intToStr( int in )
+	{
+		StringBuilder reversed = new StringBuilder();
+
+		int sign = 1;
+		if( in < 0 )
+		{
+			sign = -1;
+			in *= -1;
+		}
+		int curr;
+		while( in > 0 )
+		{
+			curr = in % 10;
+			reversed.append( curr );	
+			in /= 10;
+		}
+
+		// Now string is built (modulo sign), but is reversed.
+		StringBuilder out = new StringBuilder();
+
+		if( sign < 0 )
+		{
+			out.append( '-' );
+		}
+
+		for( int i = reversed.length()-1; i >= 0; i-- )
+		{
+			out.append( reversed.charAt(i) );
+		}
+		return out.toString();
+	}
+
 	public static void main( String[] args )
 	{
 		System.out.println( "Hello Array!" );
@@ -119,5 +178,11 @@ public class Array
 		System.out.println( theArray.reverseWords( theArray.s1 ) );
 		System.out.println( theArray.reverseWords( theArray.s2 ) );
 		System.out.println( theArray.reverseWords( theArray.s3 ) );
+
+		System.out.println( theArray.strToInt( "-1234" ) );
+		System.out.println( theArray.strToInt( "98765" ) );
+
+		System.out.println( theArray.intToStr( -1234 ) );
+		System.out.println( theArray.intToStr( 98765 ) );
 	}
 }
