@@ -40,6 +40,37 @@ public class Array
                 }
 		return ' ';
 	}
+
+	public String removeChars( String in, String remove )
+	{
+		int read = 0;
+		int write = 0;
+
+		boolean chars[];
+		chars = new boolean[128];
+		
+		StringBuilder out = new StringBuilder(in);
+
+		for( int i = 0; i < remove.length(); i++ )
+		{
+			chars[remove.charAt(i)] = true;
+		}
+
+		int length = in.length();
+		for( read = 0; read < length; read++ )
+		{
+			if( chars[in.charAt(read)] )
+			{
+				continue;
+			}
+			out.setCharAt(write, in.charAt(read));
+			write++;
+		}
+		// set new length to write
+
+		return out.substring( 0, write );
+	}
+
 	public static void main( String[] args )
 	{
 		System.out.println( "Hello Array!" );
@@ -48,5 +79,8 @@ public class Array
 		System.out.println( c );
 		c = theArray.firstNonRepeatedChar( theArray.s2 );
 		System.out.println( c );
+
+		System.out.println( theArray.removeChars( theArray.s1, "aeiou" ) );
+		System.out.println( theArray.removeChars( theArray.s2, "aeiou" ) );
 	}
 }
