@@ -33,6 +33,45 @@ public class Recur
 			return 1;	
 		}
 	}
+
+	public int binarySearch( int[] array, int lower, int upper, int target )
+	{
+		int range = (upper-lower);
+
+		if( range == 0 && target != array[lower] )
+		{
+			System.out.println( "not in array" );
+			return -1;
+		}
+
+		if( range < 0 )
+		{
+			System.out.println( "no esta aqui" );
+			return -1;
+		}
+
+		int half = lower + (upper-lower)/2;
+		System.out.println( "lower " + lower + " upper " + upper + " half " + half + " range " + range );
+		if( target > array[half] )
+		{
+			System.out.println( "Target " + target + " >  array[half] " + array[half] + " ( half = " + half + " )" );
+			// recur case
+			return binarySearch( array, half+1, upper, target );
+		}
+		else if( target < array[half] )
+		{
+			// recur case
+			System.out.println( "Target " + target + " <  array[half] " + array[half] + " ( half = " + half + " )" );
+			return binarySearch( array, lower, half-1, target );
+		}	
+		else
+		{
+			// base case
+			System.out.println( "Target " + target + " =  array[half] " + array[half] + " ( half = " + half + " )" );
+			return half;
+		}
+	}
+
 	public static void main( String[] args )
 	{
 		Recur theRecursion = new Recur();
@@ -46,5 +85,10 @@ public class Recur
 		{
 			System.out.println( results[i] );
 		}
+
+		int array[] = { 0,1,2,3,4,5,6,8,9,10,11,12,13,14,15,16,17,18,19,20 };
+
+		System.out.println( theRecursion.binarySearch( array, 0, array.length, 7 ) );
+		System.out.println( theRecursion.binarySearch( array, 0, array.length, 17 ) );
 	}
 }
